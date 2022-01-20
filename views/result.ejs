@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" type="text/css" href="main.css">
+
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.34/dist/web3.min.js"></script>
+
+
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>User Details</h1>
+
+        <h2 class="heading" id="instructor"></h2>
+        
+        <!-- <label for="name" class="col-lg-2 control-label">ID to be viewed</label>
+        <input id="viewId" type="text">
+
+        <button id="button2">view your info</button> -->
+
+
+    </div>
+	
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+
+<script>
+	var mobs= "<%=mobile%>";
+
+</script>
+
+    <script>
+
+		var contract;
+		$(document).ready(function()
+		{
+			web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+			var address="0x670e5756eca157B595489bB64894Ab71c8Bda89D";
+			var abi=[
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_id",
+				"type": "uint256"
+			},
+			{
+				"name": "_name",
+				"type": "string"
+			},
+			{
+				"name": "_code",
+				"type": "uint256"
+			}
+		],
+		"name": "setInfo",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "getInfo",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+contract=new web3.eth.Contract(abi,address);
+
+// contract.methods.getInfo().call().then(function(bal){
+//                 $("#instructor").html("Mobile Number: "+bal[0]+"<br> Name: "+ bal[1]+ "<br>CIBIL Code: "+bal[2]);
+//                 console.log(bal);
+// web3.eth.getAccounts().then(function(accounts)
+// 		{
+// 			var acc=accounts[0];
+// 			contract.methods.fetchInfo(mobs);
+// 			// contract.methods.getInfo().call().then(function(bal){
+//             //     $("#instructor").html("Mobile Number: "+bal[0]+"<br> Name: "+ bal[1]+ "<br>CIBIL Code: "+bal[2]);
+//             //     console.log(bal);
+// 		}).then(function(tx)
+// 		{
+			
+// 		}).catch(function(tx){
+// 			console.log(tx);
+// 		});
+		contract.methods.getInfo(mobs).call().then(function(bal){
+				if(bal[1]==""){
+					$("#instructor").html("User details not available.");
+				}
+				else{
+                	$("#instructor").html("Mobile Number: "+mobs+"<br> Name: "+ bal[1]+ "<br>CIBIL Code: "+bal[2]);
+				}
+				console.log(bal);
+			//console.log(tx);
+
+            
+
+        
+	});
+	
+	
+        
+    });
+
+
+	console.log(mobs);
+	</script>
+    
+
+</body>
+</html>
